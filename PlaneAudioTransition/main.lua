@@ -4,6 +4,8 @@
 --
 -----------------------------------------------------------------------------------------
 
+local missiles = {}
+
 --Posizionamento Immagine di Background 
 local background = display.newImageRect("img/background.png",960,540)
 background.x = display.contentCenterX
@@ -63,7 +65,21 @@ local seqs ={{
 			  loopCount = 0,
 			  loopDirection ="bounce"
 	    	 }
-            } 
+			} 
+			
+--caricamento imageSheet relativo al missile
+local missileOptions = {width = 44, height = 32, numFrames = 4}
+local missileSheet = graphics.newImageSheet("img/missileSheet.png", missileOptions)
+
+--definizione della sequenza del missile
+local missileSeqs = {
+	name = "missile",
+    start = 1,
+    count = 4,
+    time = 100,
+    loopCount = 4,
+    loopDirection = "forward"
+}
             
 -- INIZIO INTRO DEL GIOCO
 
@@ -76,6 +92,14 @@ local seqs ={{
 local plane = display.newSprite(planeSheet, seqs)
 plane.x = display.contentCenterX
 plane.y = -100
+
+
+--creazione bottone per sparare missile
+--inizialmente si trova fuori dallo schermo
+--vedi funzione planeEndIntro per transizione
+local button = display.newImageRect("img/redButton.png", 280, 175)
+button.x = 1080
+button.y = display.contentHeight - 60
 
 
 --Creare l'immagine tapLeft, la quale deve essere collocata nel punto di 
@@ -139,6 +163,8 @@ transition.blink (tapRight, {time = 1000})
 -- funzione startGame, eseguita dopo la visualizzazione
 -- della intro del gioco
 local function startGame()
+
+	
 	-- funzione scroll per lo scrolling orizzontale di terreno e soffitto
 	local function scroll(self,event)
 		if self.x<-(display.contentWidth-speed*2) then
@@ -161,7 +187,31 @@ local function startGame()
 					display.currentStage:setFocus(nil)
 		end	
 		return true		
-	end			
+	end	
+	
+	--funzione di shooting del missile controllata da evento tap sul bottone
+	local function shoot (event)
+		local missile = display.newSprite(missileSheet, missileSeqs)
+		missile.x = 220
+		missile.y = plane.y 
+		--missile:toBack()
+		missile:play()
+		table.insert(missiles, missile)
+		print(#missiles)
+		local shoot = transition.to(missile, {x = 1080, time = 800})
+		local missileAudio = audio.loadSound("sfx/shoot.wav")
+		audio.play(missileAudio)
+
+		--ciclo for per la rimozione dei missili fuori dal margine destro
+		for i, thisMissile in ipairs(missiles) do 
+			if (thisMissile.x >= 980) then
+				display.remove(thisMissile)
+				table.remove(missiles, i)
+			end
+		end
+	end
+
+
 	
 	-- una volta terminata la intro rimuovere il table listener
 	-- dell'oggetto grafico plane associato all'evento tap
@@ -172,7 +222,7 @@ local function startGame()
 	-- all'oggetto plane e relativo all'evento touch
 	--AGGIUNGI QUI IL CODICE NECESSARIO
 	plane:addEventListener("touch", movePlane)
-	
+	button:addEventListener("tap", shoot)
 	-- aggiunge i table listener per lo scrolling orizzontale
 	-- del soffitto (oggetti grafici top e top_next) 
 	-- e del terreno (oggetti grafici ground e ground_next)
@@ -187,6 +237,10 @@ local function startGame()
     Runtime:addEventListener("enterFrame", top_next)
 	--riprodurre la musica di background in loop dopo 1 secondo (usare timer.performWithDelay)
 	--AGGIUNGI QUI IL CODICE NECESSARIO
+
+	
+	
+	
     local bg_audio = audio.loadStream("sfx/happy.mp3")
     timer.performWithDelay(1000, audio.play(bg_audio, {loops = -1}))
    
@@ -215,7 +269,11 @@ local function PlaneEndIntro(self,event)
 	--Spostamento dell'aereo, mediante una transizione orizzontale,
 	--alla coordinata x=220 in 300ms.
 	--AGGIUNGI QUI IL CODICE NECESSARIO
-    plane.x = transition.to(plane, {x = 220, time = 300})
+	plane.x = transition.to(plane, {x = 220, time = 300})
+	
+	--sposstamento del bottone alle coordinate designate
+	button.x = transition.to(button, {x = display.contentWidth - 100, time = 300})
+
     
     local clickAudio = audio.loadSound("sfx/click.wav")
     audio.play(clickAudio)
@@ -230,3 +288,4 @@ end
 -- tap all'oggetto plane. 
 --AGGIUNGI QUI IL CODICE NECESSARIO 
 plane:addEventListener("tap", PlaneEndIntro)
+
