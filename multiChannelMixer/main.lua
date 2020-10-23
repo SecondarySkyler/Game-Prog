@@ -26,27 +26,27 @@ local barLeftMargin = 65
 local barRightMargin = 255
 
 
+
 local function moveSlider(event)
-    for num = 1,3 do
-        if (event.phase == "began") then
-            sliders[num].x = event.x - sliders[num].offsetX
-            display.currentStage:setFocus(sliders[num])
+    local slider = event.target
+    if (event.phase == "began") then
+        slider.x = event.x - slider.offsetX
+        display.currentStage:setFocus(slider)
 
-        elseif (event.phase == "moved") then
-            if (sliders[num].x <= barLeftMargin) then
-                sliders[num].x = barLeftMargin
-            elseif (sliders[num].x >= barRightMargin) then
-                sliders[num].x = barRightMargin
-            else
-                sliders[num].x = event.x - sliders[num].offsetX
-            end
-            newVolume = (sliders[num].x - 65) / 190
-            audio.setVolume (newVolume, {channel = num})
-
-        elseif (event.phase == "ended" or event.phase == "cancelled") then
-            display.currentStage:setFocus(nil)
+    elseif (event.phase == "moved") then
+        if (slider.x <= barLeftMargin) then
+            slider.x = barLeftMargin
+        elseif (slider.x >= barRightMargin) then
+            slider.x = barRightMargin
+        else
+            slider.x = event.x - slider.offsetX
         end
-    end      
+        newVolume = (slider.x - 65) / 190
+        audio.setVolume(newVolume)
+
+    elseif (event.phase == "ended" or event.phase == "cancelled") then
+        display.currentStage:setFocus(nil)
+    end
 end
 
 
