@@ -47,7 +47,11 @@ local mapLimitRight =5760
 -- all this objets must scroll according to the position of the bad guy.
  
 -- INSERT CODE HERE
+alienBlue.x = display.contentCenterX
+alienBlue.y = display.contentCenterY
 
+alienYellow.x = 5000
+alienYellow.y = display.contentCenterY - alienYellow.height
 -- loading and placement of the bad guy sprite 
 local opt = { width = 93, height = 140, numFrames = 60}
 local badGuySheet = graphics.newImageSheet("img/badGuySheet.png", opt)
@@ -73,6 +77,7 @@ local seqs ={{
 local badGuy=display.newSprite(camera,badGuySheet,seqs)
 badGuy.x = 100
 badGuy.y = display.contentHeight - 175
+badGuy.offsetX = 20
 -- By default, we set the runRight animation sequence
 badGuy:setSequence("runRight")	
 
@@ -111,13 +116,23 @@ local function moveBadGuy(event)
 	-- INSERT CODE HERE
 	local arrow = event.target
 	if (arrow.name == "left") then
-		badGuy:setSequence("runLeft")
-		badGuy:play()
-		badGuy.x = badGuy.x - 20
+		if (badGuy.x <= mapLimitLeft) then
+			badGuy.x = mapLimitLeft
+		else
+			badGuy:setSequence("runLeft")
+			badGuy:play()
+			badGuy.x = transition.moveBy(badGuy, {x = -70, time = 100})
+			xBad.text = badGuy.x 
+		end
 	else
-		badGuy:setSequence("runRight")
-		badGuy:play()
-		badGuy.x = badGuy.x + 20
+		if (badGuy.x >= mapLimitRight) then
+			badGuy.x = mapLimitRight - badGuy.offsetX
+		else
+			badGuy:setSequence("runRight")
+			badGuy:play()
+			badGuy.x = transition.moveBy(badGuy, {x = 70, time = 100})
+			xBad.text = badGuy.x 
+		end
 	end
 
 end
@@ -133,15 +148,17 @@ local function moveCamera(event)
 	local offsetX = 300
 	local displayLeft = -camera.x
 	local displayTop = -camera.y 
-	local nonScrollingWidth =  display.contentWidth
-	local nonScrollingHeight = display.contentHeight
+	local nonScrollingWidth =  display.contentWidth - offsetX
+	
 
 	if (badGuy.x >= mapLimitLeft + offsetX and badGuy.x <= mapLimitRight - offsetX) then
 		if (badGuy.x > displayLeft + nonScrollingWidth) then
 			camera.x = -badGuy.x + nonScrollingWidth
+			xCam.text = -camera.x
 
 		elseif (badGuy.x < displayLeft + offsetX) then
 			camera.x = -badGuy.x + offsetX
+			xCam.text = -camera.x
 		end
 	end
 	return true
