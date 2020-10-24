@@ -145,7 +145,7 @@ arrowRight:addEventListener("tap", moveBadGuy)
 -- Implement moveCamera listener (hint: follow the cameraTracking example)
 local function moveCamera(event)
 	-- INSERT CODE HERE
-	local offsetX = 300
+	local offsetX = badGuy.width * 2
 	local displayLeft = -camera.x
 	local displayTop = -camera.y 
 	local nonScrollingWidth =  display.contentWidth - offsetX
