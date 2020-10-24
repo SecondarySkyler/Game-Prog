@@ -8,7 +8,8 @@
 -- all display objects that must scroll) 
 
 local camera = display.newGroup()
-
+camera.anchorX = 0
+camera.anchorY = 0
 -- We also define a group for fixed display objects which will contain
 -- the game control images
 -- INSERT CODE HERE
@@ -77,7 +78,7 @@ local seqs ={{
 local badGuy=display.newSprite(camera,badGuySheet,seqs)
 badGuy.x = 100
 badGuy.y = display.contentHeight - 175
-badGuy.offsetX = 20
+badGuy.offsetX = 60
 -- By default, we set the runRight animation sequence
 badGuy:setSequence("runRight")	
 
@@ -116,7 +117,7 @@ local function moveBadGuy(event)
 	-- INSERT CODE HERE
 	local arrow = event.target
 	if (arrow.name == "left") then
-		if (badGuy.x <= mapLimitLeft) then
+		if (badGuy.x - badGuy.offsetX <= mapLimitLeft) then
 			badGuy.x = mapLimitLeft
 		else
 			badGuy:setSequence("runLeft")
@@ -125,12 +126,12 @@ local function moveBadGuy(event)
 			xBad.text = badGuy.x 
 		end
 	else
-		if (badGuy.x >= mapLimitRight) then
-			badGuy.x = mapLimitRight - badGuy.offsetX
+		if (badGuy.x + badGuy.offsetX >= mapLimitRight) then
+			badGuy.x = mapLimitRight -badGuy.width
 		else
 			badGuy:setSequence("runRight")
 			badGuy:play()
-			badGuy.x = transition.moveBy(badGuy, {x = 70, time = 100})
+			badGuy.x = transition.moveBy(badGuy, {x = 300, time = 300})
 			xBad.text = badGuy.x 
 		end
 	end
