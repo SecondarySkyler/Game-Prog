@@ -1,8 +1,8 @@
 local physics = require('physics')
 physics.start()
 physics.pause()
-physics.setDrawMode("hybrid")
-physics.setGravity(0, 20)
+--physics.setDrawMode("hybrid")
+physics.setGravity(0,3)
 
 --table to manage rock
 local rocks = {}
@@ -29,8 +29,8 @@ ground_next.y = display.contentHeight-84
 
 --adding ground and ground_next to the physics with coarseness outline
 local ground_outline = graphics.newOutline(1, "img/groundGrass.png")
-physics.addBody(ground, "kinematic", {outline = ground_outline})
-physics.addBody(ground_next, "kinematic", {outline = ground_outline})
+physics.addBody(ground, "kinematic", {outline = ground_outline, friction = 0.0})
+physics.addBody(ground_next, "kinematic", {outline = ground_outline, friction = 0.0})
 
 
 -- ceiling and ceiling_next creation
@@ -48,8 +48,8 @@ top_next.y = 0
 
 --adding top and top_next to the physics with coarseness outline
 local top_outline = graphics.newOutline(1, "img/top.png")
-physics.addBody(top, "kinematic", {outline = top_outline})
-physics.addBody(top_next, "kinematic", {outline = top_outline})
+physics.addBody(top, "kinematic", {outline = top_outline, friction = 0.0})
+physics.addBody(top_next, "kinematic", {outline = top_outline, friction = 0.0})
 
 --defining the explosion sheet
 local optionsExplo = {width = 96, height = 95, numFrames = 18}
@@ -66,7 +66,7 @@ local plane_outline = graphics.newOutline(1, "img/plane.png")
 local plane = display.newSprite(planeSheet, planeSequences)
 plane.x = display.contentCenterX
 plane.y = -100
-physics.addBody(plane, {outline = plane_outline})
+physics.addBody(plane, {outline = plane_outline, friction = 0.0})
 plane.isFixedRotation = true
 --transition for plane
 local planeEnter = transition.to(plane, {time = 300, y = display.contentCenterY})
@@ -76,6 +76,13 @@ local explosion = display.newSprite(explosionSheet, explosionSequences)
 explosion.x = plane.x
 explosion.y = plane.y 
 explosion.isVisible = false
+
+--creating the button for move the plane
+local button = display.newImageRect(fg,"img/arrowUp.png", 64, 64)
+button.x = -80
+button.y = display.contentHeight - 64
+button:toFront()
+button.x = transition.to(button, {x = 100, time = 300})
 
 --defining tap images and their transition with blink
 local tapLeft = display.newImageRect("img/tapLeft.png", 85, 42)
@@ -129,24 +136,10 @@ local function startGame()
     local function moveRock(self, event)
         self:setLinearVelocity(-200, 0)
     end
-    
-    local function gameLoop(event)
-        local rock = createRock()
-        rock.enterFrame = moveRock
-        Runtime:addEventListener("enterFrame", rock)
-    
-        for i, thisRock in ipairs(rocks) do 
-            if (thisRock.x < -80) then
-                Runtime:removeEventListener("enterFrame", thisRock)
-                display.remove(thisRock)
-                table.remove(rocks, i)
-            end
-        end
-    end
 
     local function movePlane(event)
         if (plane ~= nil) then
-            plane:applyLinearImpulse(0, -0.6, plane.x, plane.y)
+            plane:applyLinearImpulse(0, -0.4, plane.x, plane.y)
         end
     end
 
@@ -185,10 +178,7 @@ local function startGame()
 
     plane:addEventListener("collision", planeCollision)
 
-    
-
-    
-    Runtime:addEventListener("tap", movePlane)
+    button:addEventListener("tap", movePlane)
     
     top.enterFrame = groundScroll
     Runtime:addEventListener("enterFrame",top)
@@ -198,19 +188,33 @@ local function startGame()
     Runtime:addEventListener("enterFrame",ground)
     ground_next.enterFrame = groundScroll
     Runtime:addEventListener("enterFrame",ground_next)
+    
+    local function gameLoop(event)
+        local rock = createRock()
+        rock.enterFrame = moveRock
+        Runtime:addEventListener("enterFrame", rock)
+    
+        for i, thisRock in ipairs(rocks) do 
+            if (thisRock.x < -80) then
+                Runtime:removeEventListener("enterFrame", thisRock)
+                display.remove(thisRock)
+                table.remove(rocks, i)
+            end
+        end
+    end
 
     local timer = timer.performWithDelay(1000, gameLoop, 0)
 
 end
 
 local function endIntro(self, event)
-    transition.cancelAll()
-    display.remove(tapLeft)
-    display.remove(tapRight)
+    transition.cancel()
+    tapLeft:removeSelf()
+    tapRight:removeSelf()
 
     plane:play()
     --plane.x = transition.to(plane, {x = 220, time = 300})
-
+    
     startGame()
 
 end
