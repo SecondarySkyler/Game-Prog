@@ -44,16 +44,16 @@ rightBarrier.type="barrier"
 
 --adding all the barriers to the physics
 local topBarrier_filter = {categoryBits = 16, maskBits = 15}
-physics.addBody(topBarrier, "static", {bounce = 1, friction = 0})
+physics.addBody(topBarrier, "static", {bounce = 1, friction = 0, filter = topBarrier_filter})
 
 local bottomBarrier_filter = {categoryBits = 16, maskBits = 15}
-physics.addBody(bottomBarrier, "static", {bounce = 1, friction = 0})
+physics.addBody(bottomBarrier, "static", {bounce = 1, friction = 0, filter = bottomBarrier_filter})
 
 local leftBarrier_filter = {categoryBits = 16, maskBits = 15}
-physics.addBody(leftBarrier, "static", {bounce = 1, friction = 0})
+physics.addBody(leftBarrier, "static", {bounce = 1, friction = 0, filter = leftBarrier_filter})
 
 local rightBarrier_filter = {categoryBits = 16, maskBits = 15}
-physics.addBody(rightBarrier, "static", {bounce = 1, friction = 0})
+physics.addBody(rightBarrier, "static", {bounce = 1, friction = 0, filter = rightBarrier_filter})
 
 
 local function newCandy(type,x,y,width,height)
@@ -102,9 +102,9 @@ local function newCandy(type,x,y,width,height)
     forceX = math.random(10, 140)
     forceY = math.random(10, 140)
     --generating the candy
-    candy = display.newImageRect("img/"..candyNumber..".png", candy.width, candy.height)
-    candy.x = event.x 
-    candy.y = event.y
+    candy = display.newImageRect("img/"..candyNumber..".png", width, height)
+    candy.x = x 
+    candy.y = y
     candy.type = type
     physics.addBody(candy, "dynamic", {outline = candyOutline, filter = candyFilter})
     candy:applyForce(forceX * forceDirX, forceY * forceDirY, candy.x, candy.y)
@@ -141,11 +141,11 @@ local function onCandyCollision(event)
 
     if (event.phase == "began") then 
         if (candy1.type == candy2.type) then
-            local plus_one = display.newText({text = "+1", x = event.x, y = event.y})
-            transition.to(plus_one, {x = 80, alpha = 0})
+            local plus_one = display.newText({text = "+1", x = event.x, y = event.y, fontSize=60})
+            transition.moveBy(plus_one, {y = -80, alpha = 0})
             score = score + 1
-            scoreTxt.text = score
-            local Score = display.newText(scoreTxt)
+            scoreTxt.text = score..""
+            local Score = display.newText({text = "Score: "..score, fontSize=60})
         elseif (event.phase == "ended") then
             if (event.element1 == candy1 and event.element2 == candy2) then
                 candy1:removeSelf()
@@ -156,4 +156,4 @@ local function onCandyCollision(event)
     return true
 end
 
-Runtime:addEventListener("collsion", onCandyCollision)
+Runtime:addEventListener("collision", onCandyCollision)
