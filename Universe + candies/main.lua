@@ -7,6 +7,7 @@
 local physics = require('physics')
 physics.start()
 physics.setGravity(0,0)
+physics.setDrawMode("hybrid")
 
 --background
 local bg = display.newImageRect("img/vortex.png",960,540)
@@ -99,8 +100,8 @@ local function newCandy(type,x,y,width,height)
     end 
 
     --forceX and forceY
-    forceX = math.random(10, 140)
-    forceY = math.random(10, 140)
+    forceX = math.random(10, 14)
+    forceY = math.random(10, 14)
     --generating the candy
     candy = display.newImageRect("img/"..candyNumber..".png", width, height)
     candy.x = x 
@@ -141,15 +142,17 @@ local function onCandyCollision(event)
 
     if (event.phase == "began") then 
         if (candy1.type == candy2.type) then
-            local plus_one = display.newText({text = "+1", x = event.x, y = event.y, fontSize=60})
+            local plus_one = display.newText({text = "+1", x = candy1.x, y = candy1.y, fontSize=60})
             transition.moveBy(plus_one, {y = -80, alpha = 0})
             score = score + 1
-            scoreTxt.text = score..""
-            local Score = display.newText({text = "Score: "..score, fontSize=60})
+            scoreTxt.text = "Score: "..score
+            --local Score = display.newText({text = "Score: "..score, fontSize=60})
         elseif (event.phase == "ended") then
-            if (event.element1 == candy1 and event.element2 == candy2) then
+            if (event.object1 == candy1 and event.object2 == candy2) then
                 candy1:removeSelf()
+                candy1 = nil
                 candy2:removeSelf()
+                candy2 = nil
             end
         end
     end
