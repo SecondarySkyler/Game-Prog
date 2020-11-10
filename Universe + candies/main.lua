@@ -108,6 +108,7 @@ local function newCandy(type,x,y,width,height)
     candy.y = y
     candy.type = type
     physics.addBody(candy, "dynamic", {outline = candyOutline, filter = candyFilter})
+    candy.isFixedRotation = true
     candy:applyForce(forceX * forceDirX, forceY * forceDirY, candy.x, candy.y)
 
     return candy
