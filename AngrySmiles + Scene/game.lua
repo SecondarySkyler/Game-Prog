@@ -5,6 +5,7 @@ local scene = composer.newScene()
 local physics = require("physics")
 physics.setDrawMode("normal")
 physics.start()
+physics.pause()
 
 --display groups
 local bg = display.newGroup()
@@ -14,6 +15,7 @@ local camera = display.newGroup()
 --map barrier
 local mapBorderLeft = 0
 local mapBorderRight = display.contentWidth * 2
+local sceneGroup
 
 --all the variables
 local backgroundLeft
@@ -34,7 +36,7 @@ local roof
 
 --create 
 function scene:create(event)
-    local sceneGroup = self.view
+    sceneGroup = self.view
 
     backgroundLeft = display.newImageRect(bg, "img/backGrass1.png", 1920, 1080)
     backgroundRight = display.newImageRect(bg, "img/backGrass2.png", 1920, 1080)
@@ -71,7 +73,7 @@ function scene:create(event)
     column3 = display.newImageRect(fg, "img/stoneVert.png", 140, 220)
     physics.addBody(column3, "dynamic", {friction = 0.1, density = 3.0})
 
-    roof = display.newImageRect(fg, "img/stoneTriangular", 140, 70)
+    roof = display.newImageRect(fg, "img/stoneTriangular.png", 140, 70)
     local triangleShape = {0, -35, 70, 35, -70, 35}
     physics.addBody(roof, "dynamic", {shape = triangleShape, friction = 0.1, density = 3.0})
 
@@ -137,15 +139,14 @@ local function moveCamera(event)
     end	
     return true
 end
--- moveCamera is executed whenever a new frame is drawn.
-Runtime:addEventListener("enterFrame",moveCamera)
+
 
 
 local gameOver
 local function checkSmilePosition(event)
     local displayLeft = -camera.x
     if (smile ~= nil) then
-        if (smile.x > (mapBorderRight) or smile.x < (mapBorderLeft + offsetX) ) then
+        if (smile.x > (mapBorderRight) or smile.x < -100 ) then
             gameOver = display.newText({parent = fg, text = "You lost your smile", fontSize = 100})
             gameOver.x = displayLeft + display.contentCenterX
             gameOver.y = display.contentCenterY
@@ -160,13 +161,13 @@ end
 
 ----------------- SHOW ---------------------------------------
 function scene:show(event)
-    local sceneGroup = self.view
+    sceneGroup = self.view
     local phase = event.phase
 
     if (phase == "will") then
         backgroundLeft.x = display.contentCenterX
         backgroundLeft.y = display.contentCenterY
-        backgroundRight.x = display.contentCenterX
+        backgroundRight.x = display.contentCenterX + display.contentWidth
         backgroundRight.y = display.contentCenterY
 
         leftBarrier.x = 0
@@ -184,24 +185,24 @@ function scene:show(event)
         groundRight.y = display.contentHeight - groundRight.contentHeight/2
 
         baseVert.x = 400
-        baseVert.y = display.contentHeight-ground.contentHeight-70
+        baseVert.y = display.contentHeight-groundLeft.contentHeight-70
         baseHoriz.x = 400
-        baseHoriz.y = display.contentHeight-ground.contentHeight-baseVert.contentHeight-35
+        baseHoriz.y = display.contentHeight-groundLeft.contentHeight-baseVert.contentHeight-35
             
         smile.x = 400
-        smile.y = display.contentHeight - groundLeft.contentHeight - baseVert.contentHeight-35
+        smile.y = display.contentHeight - groundLeft.contentHeight - baseVert.contentHeight-105
 
         column1.x = 3400
-        column1.y = display.contentHeight-ground.contentHeight -110
+        column1.y = display.contentHeight-groundLeft.contentHeight -110
         
         column2.x = 3400
-        column2.y = display.contentHeight-ground.contentHeight -330
+        column2.y = display.contentHeight-groundLeft.contentHeight -330
         
         column3.x = 3400
-        column3.y = display.contentHeight-ground.contentHeight -550
+        column3.y = display.contentHeight-groundLeft.contentHeight -550
 
         roof.x = 3400
-        roof.y = display.contentHeight-ground.contentHeight-715
+        roof.y = display.contentHeight-groundLeft.contentHeight-715
 
     elseif (phase == "did") then 
         physics.start()
@@ -215,7 +216,7 @@ end
 ---------------------- HIDE ----------------------------
 function scene:hide(event)
 
-    local sceneGroup = self.view
+    sceneGroup = self.view
     local phase = event.phase
 
     if (phase == "will") then
