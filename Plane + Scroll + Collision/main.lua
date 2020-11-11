@@ -151,7 +151,7 @@ local function startGame()
 
     local function gameOver(event)
         if (plane ~= nil) then
-            timer.cancel(gameTimer)
+            timer.cancel("prova")
             display.remove(plane)
             plane = nil
             Runtime:removeEventListener("enterFrame", top)
@@ -210,7 +210,7 @@ local function startGame()
             end
         end
     end
-    local gameTimer = timer.performWithDelay(1000, gameLoop, 0)
+    local gameTimer = timer.performWithDelay(1000, gameLoop, 0, "prova")
 end
 
 
