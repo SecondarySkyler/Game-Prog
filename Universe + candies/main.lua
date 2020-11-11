@@ -44,17 +44,15 @@ rightBarrier.y = display.contentCenterY
 rightBarrier.type="barrier"
 
 --adding all the barriers to the physics
-local topBarrier_filter = {categoryBits = 16, maskBits = 15}
-physics.addBody(topBarrier, "static", {bounce = 1, friction = 0, filter = topBarrier_filter})
+local barrierProperties = {categoryBits = 16, maskBits = 15}
 
-local bottomBarrier_filter = {categoryBits = 16, maskBits = 15}
-physics.addBody(bottomBarrier, "static", {bounce = 1, friction = 0, filter = bottomBarrier_filter})
+physics.addBody(topBarrier, "static", {bounce = 1, friction = 0, filter = barrierProperties})
 
-local leftBarrier_filter = {categoryBits = 16, maskBits = 15}
-physics.addBody(leftBarrier, "static", {bounce = 1, friction = 0, filter = leftBarrier_filter})
+physics.addBody(bottomBarrier, "static", {bounce = 1, friction = 0, filter = barrierProperties})
 
-local rightBarrier_filter = {categoryBits = 16, maskBits = 15}
-physics.addBody(rightBarrier, "static", {bounce = 1, friction = 0, filter = rightBarrier_filter})
+physics.addBody(leftBarrier, "static", {bounce = 1, friction = 0, filter = barrierProperties})
+
+physics.addBody(rightBarrier, "static", {bounce = 1, friction = 0, filter = barrierProperties})
 
 
 local function newCandy(type,x,y,width,height)
@@ -72,19 +70,19 @@ local function newCandy(type,x,y,width,height)
     if (type == "pillow") then
         candyNumber = math.random(1, 6)
         candyFilter = {categoryBits = 1, maskBits = 17}
-        candyOutline = graphics.newOutline(1, "img/"..candyNumber..".png")
+        candyOutline = graphics.newOutline(2, "img/1.png")
     elseif (type == "star") then
         candyNumber = math.random(7, 12)    
         candyFilter = {categoryBits = 2, maskBits = 18}
-        candyOutline = graphics.newOutline(1, "img/"..candyNumber..".png")
+        candyOutline = graphics.newOutline(2, "img/7.png")
     elseif (type == "rounded") then
         candyNumber = math.random(13, 18)
         candyFilter = {categoryBits = 4, maskBits = 20}
-        candyOutline = graphics.newOutline(1, "img/"..candyNumber..".png")
+        candyOutline = graphics.newOutline(2, "img/13.png")
     elseif (type == "stick") then 
         candyNumber = 19
         candyFilter = {categoryBits = 8, maskBits = 24}
-        candyOutline = graphics.newOutline(1, "img/"..candyNumber..".png")
+        candyOutline = graphics.newOutline(2, "img/19.png")
     end
 
     --forceDirX and forceDirY
@@ -100,14 +98,14 @@ local function newCandy(type,x,y,width,height)
     end 
 
     --forceX and forceY
-    forceX = math.random(10, 14)
-    forceY = math.random(10, 14)
+    forceX = math.random(2, 10)
+    forceY = math.random(2, 10)
     --generating the candy
     candy = display.newImageRect("img/"..candyNumber..".png", width, height)
     candy.x = x 
     candy.y = y
     candy.type = type
-    physics.addBody(candy, "dynamic", {outline = candyOutline, filter = candyFilter})
+    physics.addBody(candy, "dynamic", {outline = candyOutline, filter = candyFilter, bounce = 1})
     candy.isFixedRotation = true
     candy:applyForce(forceX * forceDirX, forceY * forceDirY, candy.x, candy.y)
 
@@ -143,21 +141,19 @@ local function onCandyCollision(event)
 
     if (event.phase == "began") then 
         if (candy1.type == candy2.type) then
-            local plus_one = display.newText({text = "+1", x = candy1.x, y = candy1.y, fontSize=60})
+            local plus_one = display.newText({text = "+1", x = candy1.x, y = candy1.y, fontSize="60"})
             transition.moveBy(plus_one, {y = -80, alpha = 0})
             score = score + 1
             scoreTxt.text = "Score: "..score
         end
-        if (event.phase == "ended" or event.phase == "cancelled") then
-            if (event.object1 == candy1 and event.object2 == candy2) 
-            or (event.object1 == candy2 and event.object2 == candy1) then
-                display.remove(candy1)
-                display.remove(candy2)
-                candy1 = nil
-                
-                candy2 = nil
-            end
-        end
+    end
+     if (event.phase == "ended") then
+          if (candy1.type == candy2.type) then
+            candy1:removeSelf()
+            candy1 = nil
+            candy2:removeSelf()
+            candy2 = nil
+        end  
     end
     return true
 end
