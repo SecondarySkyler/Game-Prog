@@ -3,9 +3,12 @@ physics.start()
 physics.pause()
 --physics.setDrawMode("hybrid")
 physics.setGravity(0,3)
+physics.setDrawMode("normal")
 
 --table to manage rock
 local rocks = {}
+
+local gameTimer
 
 --background and foregorund group
 local bg = display.newGroup()
@@ -29,8 +32,8 @@ ground_next.y = display.contentHeight-84
 
 --adding ground and ground_next to the physics with coarseness outline
 local ground_outline = graphics.newOutline(1, "img/groundGrass.png")
-physics.addBody(ground, "kinematic", {outline = ground_outline, friction = 0.0})
-physics.addBody(ground_next, "kinematic", {outline = ground_outline, friction = 0.0})
+physics.addBody(ground, "static", {outline = ground_outline, bounce = 0.0})
+physics.addBody(ground_next, "static", {outline = ground_outline, bounce = 0.0})
 
 
 -- ceiling and ceiling_next creation
@@ -48,8 +51,8 @@ top_next.y = 0
 
 --adding top and top_next to the physics with coarseness outline
 local top_outline = graphics.newOutline(1, "img/top.png")
-physics.addBody(top, "kinematic", {outline = top_outline, friction = 0.0})
-physics.addBody(top_next, "kinematic", {outline = top_outline, friction = 0.0})
+physics.addBody(top, "static", {outline = top_outline, friction = 0.0})
+physics.addBody(top_next, "static", {outline = top_outline, friction = 0.0})
 
 --defining the explosion sheet
 local optionsExplo = {width = 96, height = 95, numFrames = 18}
@@ -99,16 +102,18 @@ local tapRightEnter = transition.to(tapRight, {delay = 600, x = plane.x - 90, tr
 transition.blink (tapLeft, {time = 1000})
 transition.blink (tapRight, {time = 1000})
 
+local speed = 4
+
 
 local function startGame()
     physics.start()
     plane:removeEventListener("tap", plane)
 
     local function groundScroll(self, event)
-        if (self.x < -display.contentWidth) then
-            self.x = display.contentWidth - 10
+        if (self.x < -display.contentWidth - speed*2) then
+            self.x = display.contentWidth 
         else
-            self:setLinearVelocity(-200, 0)
+            self.x = self.x - speed
         end
     end
     
@@ -127,26 +132,28 @@ local function startGame()
             rock.y = 0 + math.random(10, 120)
             rock.outline = graphics.newOutline(1, "img/rockGrassDown.png")
         end
+        physics.addBody(rock, "static", {outline = rock.outline})
         rock:toBack()
         table.insert(rocks, rock)
-        physics.addBody(rock, "kinematic", {outline = rock.outline})
         return rock
     end
     
     local function moveRock(self, event)
-        self:setLinearVelocity(-200, 0)
+        self.x = self.x - speed
     end
 
     local function movePlane(event)
         if (plane ~= nil) then
-            plane:applyLinearImpulse(0, -0.4, plane.x, plane.y)
+            plane:applyLinearImpulse(0, -0.6, plane.x, plane.y)
         end
+        return true
     end
 
     local function gameOver(event)
         if (plane ~= nil) then
-            timer.cancel(timer)
+            timer.cancel(gameTimer)
             display.remove(plane)
+            plane = nil
             Runtime:removeEventListener("enterFrame", top)
             Runtime:removeEventListener("enterFrame", top_next)
             Runtime:removeEventListener("enterFrame", ground)
@@ -159,16 +166,15 @@ local function startGame()
                 Runtime:removeEventListener("enterFrame", rocks[i])
             end 
         end
-
     end
 
     local function planeCollision(self,event)
         if (event.phase == "began") then
-            Runtime:removeEventListener("tap", movePlane)
+            button:removeEventListener("tap", movePlane)
             plane.isVisible = false
+            explosion.isVisible = true
             explosion.x = plane.x
             explosion.y = plane.y
-            explosion.isVisible = true
             explosion:play()
         elseif (event.phase == "ended") then
             gameOver()
@@ -176,7 +182,8 @@ local function startGame()
         return true
     end
 
-    plane:addEventListener("collision", planeCollision)
+    plane.collision = planeCollision
+    plane:addEventListener("collision", plane)
 
     button:addEventListener("tap", movePlane)
     
@@ -189,6 +196,7 @@ local function startGame()
     ground_next.enterFrame = groundScroll
     Runtime:addEventListener("enterFrame",ground_next)
     
+
     local function gameLoop(event)
         local rock = createRock()
         rock.enterFrame = moveRock
@@ -202,21 +210,16 @@ local function startGame()
             end
         end
     end
-
-    local timer = timer.performWithDelay(1000, gameLoop, 0)
-
+    local gameTimer = timer.performWithDelay(1000, gameLoop, 0)
 end
+
 
 local function endIntro(self, event)
     transition.cancel()
     tapLeft:removeSelf()
     tapRight:removeSelf()
-
     plane:play()
-    --plane.x = transition.to(plane, {x = 220, time = 300})
-    
     startGame()
-
 end
 
 plane.tap = endIntro
