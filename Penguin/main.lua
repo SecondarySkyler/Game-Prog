@@ -1,11 +1,15 @@
-local tiled = require("com.ponywolf.ponytiled")
-local json = require("json")
 local enemy = require("enemy")
+local physics = require("physics")
+local map = require("map")
 
-local mapData = json.decodeFile(system.pathForFile("map/newLevel.json", system.ResourceDirectory))
-local map = tiled.new(mapData, "map")
+physics.start()
+
+local level = map.loadMap("newLevel.json")
 
 
-local cat = enemy.findCat(map)
-local cat2 = enemy.findCat2(map)
+local cat = enemy.findCat(level)
+local cat2 = enemy.findCat2(level)
+
+enemy.animate(cat)
+enemy.animate(cat2)
 
