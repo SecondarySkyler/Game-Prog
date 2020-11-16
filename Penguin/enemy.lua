@@ -11,8 +11,7 @@ end
 
 function M.findCat(level)
     local cat = level:findObject("cat")
-    print("cat is at: "..cat.x)
-
+    
     cat.speedDir = -1
     cat.speed = 16
 
@@ -21,6 +20,7 @@ function M.findCat(level)
     physics.addBody(cat, "kinematic",  {shape = catShape, isSensor = true})
 
     cat.enterFrame = checkCatPosition
+    return cat
 end
 
 function M.findCat2(level)
@@ -28,13 +28,14 @@ function M.findCat2(level)
     print("cat2 is at: "..cat2.x)
 
     cat2.speedDir = -1
-    cat2.speed = 16
+    cat2.speed = 24
 
     physics.removeBody(cat2)
     local catShape={-10,16,10,16,-10,0,10,0}
     physics.addBody(cat2, "kinematic",  {shape = catShape, isSensor = true})
-    print("speed: "..cat2.speed)
+    
     cat2.enterFrame = checkCatPosition
+    return cat2
 end
 
 function M.animate(enemy)

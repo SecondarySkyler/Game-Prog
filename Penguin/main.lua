@@ -1,5 +1,5 @@
-local enemy = require("enemy")
 local physics = require("physics")
+local enemy = require("enemy")
 local map = require("map")
 
 physics.start()
