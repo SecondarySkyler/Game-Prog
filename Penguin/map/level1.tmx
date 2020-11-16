@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.4" tiledversion="1.4.2" orientation="orthogonal" renderorder="right-down" width="10" height="15" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="48">
+ <tileset firstgid="1" name="elements" tilewidth="32" tileheight="32" tilecount="35" columns="0">
+  <grid orientation="orthogonal" width="1" height="1"/>
+  <tile id="0">
+   <image width="32" height="32" source="sprite_00.png"/>
+  </tile>
+  <tile id="1">
+   <image width="32" height="32" source="sprite_01.png"/>
+  </tile>
+  <tile id="2">
+   <image width="32" height="32" source="sprite_02.png"/>
+  </tile>
+  <tile id="3">
+   <image width="32" height="32" source="sprite_03.png"/>
+  </tile>
+  <tile id="4">
+   <image width="32" height="32" source="sprite_04.png"/>
+  </tile>
+  <tile id="5">
+   <image width="32" height="32" source="sprite_05.png"/>
+  </tile>
+  <tile id="6">
+   <image width="32" height="32" source="sprite_06.png"/>
+  </tile>
+  <tile id="7">
+   <image width="32" height="32" source="sprite_07.png"/>
+  </tile>
+  <tile id="8">
+   <image width="32" height="32" source="sprite_08.png"/>
+  </tile>
+  <tile id="9">
+   <image width="32" height="32" source="sprite_09.png"/>
+  </tile>
+  <tile id="10">
+   <image width="32" height="32" source="sprite_10.png"/>
+  </tile>
+  <tile id="11">
+   <image width="32" height="32" source="sprite_11.png"/>
+  </tile>
+  <tile id="12">
+   <image width="32" height="32" source="sprite_12.png"/>
+  </tile>
+  <tile id="13">
+   <image width="32" height="32" source="sprite_13.png"/>
+  </tile>
+  <tile id="14">
+   <image width="32" height="32" source="sprite_14.png"/>
+  </tile>
+  <tile id="15">
+   <image width="32" height="32" source="sprite_15.png"/>
+  </tile>
+  <tile id="16">
+   <image width="32" height="32" source="sprite_16.png"/>
+  </tile>
+  <tile id="17">
+   <image width="32" height="32" source="sprite_17.png"/>
+  </tile>
+  <tile id="18">
+   <image width="32" height="32" source="sprite_18.png"/>
+  </tile>
+  <tile id="19">
+   <image width="32" height="32" source="sprite_19.png"/>
+  </tile>
+  <tile id="20">
+   <image width="32" height="32" source="sprite_20.png"/>
+  </tile>
+  <tile id="21">
+   <image width="32" height="32" source="sprite_21.png"/>
+  </tile>
+  <tile id="22">
+   <image width="32" height="32" source="sprite_22.png"/>
+  </tile>
+  <tile id="23">
+   <image width="32" height="32" source="sprite_23.png"/>
+  </tile>
+  <tile id="24">
+   <image width="32" height="32" source="sprite_24.png"/>
+  </tile>
+  <tile id="25">
+   <image width="32" height="32" source="sprite_25.png"/>
+  </tile>
+  <tile id="26">
+   <image width="32" height="32" source="sprite_26.png"/>
+  </tile>
+  <tile id="27">
+   <image width="32" height="32" source="sprite_27.png"/>
+  </tile>
+  <tile id="28">
+   <image width="32" height="32" source="sprite_28.png"/>
+  </tile>
+  <tile id="29">
+   <image width="32" height="32" source="sprite_29.png"/>
+  </tile>
+  <tile id="30">
+   <image width="32" height="32" source="sprite_30.png"/>
+  </tile>
+  <tile id="31">
+   <image width="32" height="32" source="sprite_31.png"/>
+  </tile>
+  <tile id="32">
+   <image width="32" height="32" source="sprite_32.png"/>
+  </tile>
+  <tile id="33">
+   <image width="32" height="32" source="sprite_33.png"/>
+  </tile>
+  <tile id="34">
+   <image width="32" height="32" source="sprite_34.png"/>
+  </tile>
+ </tileset>
+ <layer id="1" name="background" width="10" height="15">
+  <data encoding="csv">
+11,11,11,11,11,11,11,11,11,11,
+11,11,11,11,11,11,11,11,11,11,
+11,11,11,11,11,11,11,11,11,11,
+11,11,11,11,11,11,11,11,11,11,
+11,11,11,11,11,11,11,11,11,11,
+11,11,11,11,11,11,11,11,11,11,
+11,11,11,11,11,11,11,11,11,11,
+11,11,11,11,11,11,11,11,11,11,
+11,11,11,11,11,11,11,11,11,11,
+11,11,11,11,11,11,11,11,11,11,
+11,11,11,11,11,11,11,11,11,11,
+11,11,11,11,11,11,11,11,11,11,
+11,11,11,11,11,11,11,11,11,11,
+11,11,11,11,11,11,11,11,11,11,
+11,11,11,11,11,11,11,11,11,11
+</data>
+ </layer>
+ <layer id="3" name="platform" width="10" height="15">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,29,32,32,0,0,0,0,0,
+29,0,0,0,0,29,29,29,29,29,
+29,29,29,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+29,29,29,29,29,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+29,29,32,32,32,29,29,0,0,0,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,29,29,29,29,
+0,0,0,0,0,0,0,0,0,0,
+0,0,0,29,29,29,29,29,29,29,
+0,0,0,0,0,0,0,0,0,0,
+29,29,29,29,29,29,29,29,29,29
+</data>
+ </layer>
+ <objectgroup id="4" name="platformPhysics">
+  <object id="1" type="platform" x="-0.666667" y="448" width="320" height="32">
+   <properties>
+    <property name="bodyType" value="static"/>
+    <property name="bounce" type="float" value="0"/>
+    <property name="density" type="float" value="2"/>
+    <property name="friction" type="float" value="0"/>
+    <property name="isVisible" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="22" x="320" y="0" height="480"/>
+  <object id="23" x="0" y="0" height="480"/>
+  <object id="24" type="platform" x="319.231" y="0" width="0.769231" height="479.231">
+   <properties>
+    <property name="bodyType" value="static"/>
+    <property name="bounce" type="float" value="0"/>
+    <property name="friction" type="float" value="0"/>
+   </properties>
+  </object>
+  <object id="25" type="barrier" x="0" y="-2" width="0.769231" height="479.231">
+   <properties>
+    <property name="bodyType" value="static"/>
+    <property name="bounce" type="float" value="0"/>
+   </properties>
+  </object>
+  <object id="37" type="platform" x="96.6667" y="384.667" width="222" height="30">
+   <properties>
+    <property name="bodyType" value="static"/>
+    <property name="bounce" type="float" value="0"/>
+    <property name="density" type="float" value="2"/>
+    <property name="friction" type="float" value="0"/>
+    <property name="isVisible" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="38" type="platform" x="190.667" y="320" width="128" height="30.6667">
+   <properties>
+    <property name="bodyType" value="static"/>
+    <property name="bounce" type="float" value="0"/>
+    <property name="density" type="float" value="2"/>
+    <property name="friction" type="float" value="0"/>
+    <property name="isVisible" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="39" type="platform" x="2" y="256.667" width="222.667" height="30.6667">
+   <properties>
+    <property name="bodyType" value="static"/>
+    <property name="bounce" type="float" value="0"/>
+    <property name="density" type="float" value="2"/>
+    <property name="friction" type="float" value="0"/>
+    <property name="isVisible" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="40" type="platform" x="0.666667" y="192.333" width="159" height="30.6667">
+   <properties>
+    <property name="bodyType" value="static"/>
+    <property name="bounce" type="float" value="0"/>
+    <property name="density" type="float" value="2"/>
+    <property name="friction" type="float" value="0"/>
+    <property name="isVisible" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="41" type="platform" x="0.333333" y="128.667" width="95" height="30.6667">
+   <properties>
+    <property name="bodyType" value="static"/>
+    <property name="bounce" type="float" value="0"/>
+    <property name="density" type="float" value="2"/>
+    <property name="friction" type="float" value="0"/>
+    <property name="isVisible" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="42" type="platform" x="160.333" y="96" width="159.333" height="30.6667">
+   <properties>
+    <property name="bodyType" value="static"/>
+    <property name="bounce" type="float" value="0"/>
+    <property name="density" type="float" value="2"/>
+    <property name="friction" type="float" value="0"/>
+    <property name="isVisible" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="43" type="platform" x="64" y="64.3333" width="96" height="30.6667">
+   <properties>
+    <property name="bodyType" value="static"/>
+    <property name="bounce" type="float" value="0"/>
+    <property name="density" type="float" value="2"/>
+    <property name="friction" type="float" value="0"/>
+    <property name="isVisible" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="44" type="platform" x="1" y="96.6667" width="31" height="30.6667">
+   <properties>
+    <property name="bodyType" value="static"/>
+    <property name="bounce" type="float" value="0"/>
+    <property name="density" type="float" value="2"/>
+    <property name="friction" type="float" value="0"/>
+    <property name="isVisible" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="45" type="barrier" x="31.6154" y="98.0512" width="0.769231" height="29.5643">
+   <properties>
+    <property name="bodyType" value="static"/>
+    <property name="bounce" type="float" value="0"/>
+   </properties>
+  </object>
+  <object id="46" type="barrier" x="160.615" y="64.8845" width="0.769231" height="29.5643">
+   <properties>
+    <property name="bodyType" value="static"/>
+    <property name="bounce" type="float" value="0"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="6" name="bonus">
+  <object id="19" name="egg" type="bonus" gid="26" x="0" y="256" width="32" height="32">
+   <properties>
+    <property name="bodyType" value="static"/>
+    <property name="isSensor" type="bool" value="true"/>
+    <property name="radius" type="float" value="3"/>
+   </properties>
+  </object>
+  <object id="20" name="door" type="exit" gid="27" x="288" y="96" width="32" height="32">
+   <properties>
+    <property name="bodyType" value="static"/>
+    <property name="isSensor" type="bool" value="true"/>
+    <property name="radius" type="float" value="2"/>
+   </properties>
+  </object>
+  <object id="32" name="egg" type="bonus" gid="26" x="65" y="64" width="32" height="32">
+   <properties>
+    <property name="bodyType" value="static"/>
+    <property name="isSensor" type="bool" value="true"/>
+    <property name="radius" type="float" value="3"/>
+   </properties>
+  </object>
+  <object id="33" name="egg" type="bonus" gid="26" x="288" y="320" width="32" height="32">
+   <properties>
+    <property name="bodyType" value="static"/>
+    <property name="isSensor" type="bool" value="true"/>
+    <property name="radius" type="float" value="3"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="5" name="characters">
+  <object id="17" name="cat" type="bad" gid="33" x="288" y="96" width="32" height="32">
+   <properties>
+    <property name="bodyType" value="kinematic"/>
+    <property name="isSensor" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="47" name="cat2" type="bad" gid="33" x="226.875" y="384" width="32" height="32">
+   <properties>
+    <property name="bodyType" value="kinematic"/>
+    <property name="isSensor" type="bool" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>
