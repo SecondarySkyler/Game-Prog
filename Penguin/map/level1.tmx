@@ -156,9 +156,9 @@
     <property name="isVisible" type="bool" value="false"/>
    </properties>
   </object>
-  <object id="22" x="320" y="0" height="480"/>
+  <object id="22" type="barrier" x="320" y="0" height="480"/>
   <object id="23" x="0" y="0" height="480"/>
-  <object id="24" type="platform" x="319.231" y="0" width="0.769231" height="479.231">
+  <object id="24" type="barrier" x="319.231" y="0" width="0.769231" height="479.231">
    <properties>
     <property name="bodyType" value="static"/>
     <property name="bounce" type="float" value="0"/>

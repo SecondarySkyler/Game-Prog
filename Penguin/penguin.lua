@@ -46,6 +46,23 @@ function M.new()
     penguin.isFixedRotation = true
 
 
+    --====== COLLISION ==========
+    local function onCollision(self, event)
+        local collidedObject = event.other
+        local collidedObjectTop = collidedObject.y - collidedObject.height / 2
+        local penguinBottom = penguin.y + 16
+
+        if (event.phase == "began") then
+            if (collidedObject.type == "barrier") then
+                self.speedDir = -self.speedDir
+                self:setLinearVelocity(penguin.speedDir * penguin.speed, 0)
+                self.xScale = self.speedDir
+                --audio
+            end
+        end
+    end
+
+    penguin.collision = onCollision
 
     return penguin
 end
@@ -66,7 +83,6 @@ function M.activate(penguin)
     penguin:setSequence("walk")
     penguin:play()
     penguin:setLinearVelocity(penguin.speedDir * penguin.speed)
-    penguin:addEventListener("preCollision", penguin)
     penguin:addEventListener("collision", penguin)
 end
 

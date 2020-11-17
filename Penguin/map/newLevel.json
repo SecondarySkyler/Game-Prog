@@ -72,8 +72,20 @@
                  "height":480,
                  "id":22,
                  "name":"",
+                 "properties":[
+                        {
+                               "name":"bodyType",
+                               "type":"string",
+                               "value":"static"
+                        },
+                        {
+                               "name":"bounce",
+                               "type":"float",
+                               "value":0
+                        }
+                 ],
                  "rotation":0,
-                 "type":"",
+                 "type":"barrier",
                  "visible":true,
                  "width":0,
                  "x":320,
@@ -111,7 +123,7 @@
                          "value":0
                         }],
                  "rotation":0,
-                 "type":"platform",
+                 "type":"barrier",
                  "visible":true,
                  "width":0.769231,
                  "x":319.231,
