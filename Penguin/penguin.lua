@@ -68,6 +68,20 @@ function M.new()
                     self:setLinearVelocity(self.speedDir * self.speed, 0)
                 end
             end
+
+            if (collidedObject.name == "egg") then
+                collidedObject.isVisible = false
+                --audio
+            end
+
+            if (collidedObject.name == "cat" or collidedObject.name == "cat2") then
+                --audio
+                self:setSequence("die")
+                self:play()
+                Runtime:removeEventListener("tap", onJump)
+                physics.pause()
+            end
+            
         end
 
     end
