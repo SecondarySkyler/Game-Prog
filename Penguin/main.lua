@@ -15,7 +15,7 @@ enemy.animate(cat)
 enemy.animate(cat2)
 
 local character = penguin.new()
-penguin.init(character, 8, 13 * 32, 32, 1, false, false)
+penguin.init(character, 8, 13 * 32, 32, 1, false)
 penguin.activate(character)
 
 

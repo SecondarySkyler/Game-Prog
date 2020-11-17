@@ -59,16 +59,38 @@ function M.new()
                 self.xScale = self.speedDir
                 --audio
             end
+
+            if (collidedObject.type == "platform") then
+                if (event.contact.isTouching == true and penguinBottom <= collidedObjectTop) then
+                    self.jumpAllowed = true
+                    self:setSequence("walk")
+                    self:play()
+                    self:setLinearVelocity(self.speedDir * self.speed, 0)
+                end
+            end
+        end
+
+    end
+
+    local function onJump(self,event)
+        if (self.jumpAllowed == true) then
+            self:applyLinearImpulse(self.speedDir * 0.09, -2.6, self.x, self.y)
+            --audio
+            self:setSequence("jump")
+            self:play()
+            self.jumpAllowed = false
         end
     end
 
     penguin.collision = onCollision
+    penguin.tap = onJump
+    
 
     return penguin
 end
 
 
-function M.init(penguin, xPos, yPos, speed, speedDir, jumpAllowed, isOnLadder)
+function M.init(penguin, xPos, yPos, speed, speedDir, jumpAllowed)
     penguin.x = xPos
     penguin.y = yPos
 
@@ -76,7 +98,7 @@ function M.init(penguin, xPos, yPos, speed, speedDir, jumpAllowed, isOnLadder)
     penguin.speedDir = speedDir
 
     penguin.jumpAllowed = jumpAllowed
-    penguin.isOnLadder = isOnLadder
+    
 end
 
 function M.activate(penguin)
@@ -84,6 +106,7 @@ function M.activate(penguin)
     penguin:play()
     penguin:setLinearVelocity(penguin.speedDir * penguin.speed)
     penguin:addEventListener("collision", penguin)
+    Runtime:addEventListener("tap", penguin)
 end
 
 return M
