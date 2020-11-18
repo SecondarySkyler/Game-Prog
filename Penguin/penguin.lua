@@ -81,6 +81,13 @@ function M.new()
                 Runtime:removeEventListener("tap", onJump)
                 physics.pause()
             end
+
+            if (collidedObject.name == "door") then
+                --audio
+                self:pause()
+                Runtime:removeEventListener("tap", onJump)
+                physics.pause()
+            end
             
         end
 
