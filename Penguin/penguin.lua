@@ -91,6 +91,15 @@ function M.new()
             
         end
 
+        if (event.phase == "ended") then
+            if (collidedObject.name == "egg") then
+                if (collidedObject ~= nil) then
+                    display.remove(collidedObject)
+                    collidedObject = nil
+                end
+            end
+        end
+
     end
 
     local function onJump(self,event)
