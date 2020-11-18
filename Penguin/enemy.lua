@@ -25,7 +25,6 @@ end
 
 function M.findCat2(level)
     local cat2 = level:findObject("cat2")
-    print("cat2 is at: "..cat2.x)
 
     cat2.speedDir = -1
     cat2.speed = 24

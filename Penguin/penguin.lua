@@ -1,5 +1,7 @@
 local M = {}
 
+local audioData = require("audioData")
+
 function M.new()
     local penguinOptions = {numFrames = 51, width = 32, height = 32}
     local penguinSheet = graphics.newImageSheet("img/penguinSheet.png", penguinOptions)
@@ -57,7 +59,7 @@ function M.new()
                 self.speedDir = -self.speedDir
                 self:setLinearVelocity(penguin.speedDir * penguin.speed, 0)
                 self.xScale = self.speedDir
-                --audio
+                audio.play(audioData.soundTable.wall)
             end
 
             if (collidedObject.type == "platform") then
@@ -71,11 +73,12 @@ function M.new()
 
             if (collidedObject.name == "egg") then
                 collidedObject.isVisible = false
-                --audio
+                audio.play(audioData.soundTable.bonus)
             end
 
             if (collidedObject.name == "cat" or collidedObject.name == "cat2") then
-                --audio
+                audio.pause(bgMusic)
+                --audio.play(audioData.soundTable.evil) PROBLEM WITH .WAV FILE NVM IT WORKS FINE
                 self:setSequence("die")
                 self:play()
                 Runtime:removeEventListener("tap", onJump)
@@ -83,7 +86,8 @@ function M.new()
             end
 
             if (collidedObject.name == "door") then
-                --audio
+                audio.pause(bgMusic)
+                audio.play(audioData.soundTable.exit) 
                 self:pause()
                 Runtime:removeEventListener("tap", onJump)
                 physics.pause()
